@@ -1,6 +1,6 @@
-pipeline {
-    agent any {
-    
+node('docker') {
+    def app
+
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 
@@ -11,12 +11,12 @@ pipeline {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        def app = docker.build("bharat123644/hellonode")
+        app = docker.build("getintodevops/hellonode")
     }
 
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;- */
+         * For this example, we're using a Volkswagen-type approach ;-) */
 
         app.inside {
             sh 'echo "Tests passed"'
@@ -33,5 +33,4 @@ pipeline {
             app.push("latest")
         }
     }
-  }
-}    
+}
